@@ -1,0 +1,5 @@
+GET https://asia-southeast2-sejutacita-app.cloudfunctions.net/fee-assessment-categories
+
+###
+
+GET https://asia-southeast2-sejutacita-app.cloudfunctions.net/fee-assessment-books?categoryId=1&page=0&size=999
