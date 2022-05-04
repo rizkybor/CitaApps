@@ -9,6 +9,12 @@
 - Redux
 - MaterialUI
 
+# How to Run this web in Terminal VS Code :
+1. Open Tab Terminal Folder my-app
+2. npm i untuk inisiasi
+3. npm run start
+4. turn on extension cors browser default
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
