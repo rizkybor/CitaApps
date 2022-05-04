@@ -1,3 +1,14 @@
+# SUMMARY :
+1. untuk case CORS, saya menggunakan extension untuk menyelesaikannya
+2. terdapat BUG pada saat add Favorites, harus 2x add baru muncul
+3. mungkin website yang saya buat ini masih jauh dari sempurna, khususnya styling responsivenya yang masih kurang baik, tapi saya berusaha untuk menyelesaikannya sesuai TASK yang diberikan
+
+# Client Tech :
+- ReactJS
+- React-Router-Dom.V6
+- Redux
+- MaterialUI
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
