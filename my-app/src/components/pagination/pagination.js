@@ -1,11 +1,10 @@
 import React from 'react'
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Pagination } from '@mui/material'
 import { getDataBooksByPage } from "../../store/actions/books";
 
 const Paginations = ({postPerPage, totalPost, categories}) => {
-
-   
+  
     const dispatch = useDispatch(postPerPage, categories);
     const countPage = Math.floor(totalPost/postPerPage)
    

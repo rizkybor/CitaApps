@@ -1,19 +1,17 @@
 import { Component } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../routes/index"
+import { indigo } from '@mui/material/colors';
 import Header from "../../components/header/header"
 import Footer from "../../components/footer/footer"
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { indigo } from '@mui/material/colors';
 
 const theme = createTheme({
   palette: {
     primary: {
-      // Purple and green play nicely together.
       main: indigo[700],
     },
     secondary: {
-      // This is green.A700 as hex.
       main: '#11cb5f',
     },
   },

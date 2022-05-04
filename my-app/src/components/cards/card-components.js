@@ -1,19 +1,25 @@
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { CardActionArea } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
+import IconButton from '@mui/material/IconButton';
 import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import CardContent from "@mui/material/CardContent";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { setDataBooksFavorites } from "../../store/actions/books";
 
-export default function CardComponents({books}) {
+
+export default function CardComponents({ books }) {
+  const dispatch = useDispatch();
+
   let cardStyle = {
     marginTop: "10px",
     width: "200vw",
     height: "auto",
-    padding: "3.5%"
+    padding: "3.5%",
   };
 
   let cardBody = {
@@ -27,9 +33,13 @@ export default function CardComponents({books}) {
     },
   });
 
+  let addedFavorites = (e) => {
+    dispatch(setDataBooksFavorites(e));
+  }
+
   return (
     <div>
-       <Grid container spacing={2}>
+      <Grid container spacing={2}>
         {books.map((el) => (
           <Grid
             container
@@ -43,15 +53,20 @@ export default function CardComponents({books}) {
             xs={6}
             key={el.id}
           >
-            
             <Card
               style={cardStyle}
               sx={{
-                    maxWidth: 250,
-                    boxShadow: 10
-                  }}
+                maxWidth: 250,
+                boxShadow: 10,
+              }}
             >
-              
+               <IconButton 
+                    aria-label="add to favorites"
+                    onClick={()=>(addedFavorites(el))}
+                    >
+                    <FavoriteIcon
+                    />
+                </IconButton>
               <CardActionArea>
                 <CardMedia
                   component="img"
@@ -70,6 +85,6 @@ export default function CardComponents({books}) {
           </Grid>
         ))}
       </Grid>
-   </div>
+    </div>
   );
 }

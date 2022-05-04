@@ -1,6 +1,7 @@
 import {
     GET_DATA_BOOKS,
     GET_DATA_BOOKS_BY_PAGE,
+    GET_DATA_BOOKS_FAVORITES,
     GET_DATA_BOOKS_LOADING,
     GET_DATA_BOOKS_ERRORMESSAGE
   } from "../../actions/books/types";
@@ -9,6 +10,7 @@ import {
     loading: false,
     books: [],
     booksByPage: [],
+    booksFavorites: [],
     errorMessage: "",
   };
   
@@ -24,16 +26,21 @@ import {
           ...state,
           booksByPage: action.payload,
         };
-      case GET_DATA_BOOKS_LOADING:
+        case GET_DATA_BOOKS_FAVORITES:
         return {
           ...state,
-          loading: action.payload,
+          booksFavorites: action.payload,
         };
-      case GET_DATA_BOOKS_ERRORMESSAGE:
-        return {
-          ...state,
-          errorMessage: action.payload,
-        };
+        case GET_DATA_BOOKS_LOADING:
+          return {
+            ...state,
+            loading: action.payload,
+          };
+        case GET_DATA_BOOKS_ERRORMESSAGE:
+          return {
+            ...state,
+            errorMessage: action.payload,
+          };
       default:
         return state;
     }

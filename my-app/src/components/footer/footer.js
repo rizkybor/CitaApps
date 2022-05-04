@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
+import Typography from "@mui/material/Typography";
 
 export default function Footer() {
   let data = useSelector((state) => state.books.books);

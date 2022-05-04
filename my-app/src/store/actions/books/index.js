@@ -1,16 +1,17 @@
 import {
     GET_DATA_BOOKS,
     GET_DATA_BOOKS_BY_PAGE,
+    GET_DATA_BOOKS_FAVORITES,
     GET_DATA_BOOKS_LOADING,
     GET_DATA_BOOKS_ERRORMESSAGE
   } from "./types";
   
-  export const setLoadingMovies = () => (dispatch) => {
+  export const setLoadingBooks = () => (dispatch) => {
     let data = true;
     dispatch({ type: GET_DATA_BOOKS_LOADING, payload: data });
   };
   
-  export const setErrorMovies = () => (dispatch) => {
+  export const setErrorBooks = () => (dispatch) => {
     let data = "Salah";
     dispatch({ type: GET_DATA_BOOKS_ERRORMESSAGE, payload: data });
   };
@@ -25,7 +26,6 @@ import {
         let result = json.map((el) => {
           return el;
         });
-        console.log(result)
         dispatch({ type: GET_DATA_BOOKS, payload: result });
       });
   };
@@ -41,6 +41,10 @@ import {
         });
         dispatch({ type: GET_DATA_BOOKS_BY_PAGE, payload: result });
       });
+  };
+
+  export const setDataBooksFavorites = (value) => (dispatch) => {
+        dispatch({ type: GET_DATA_BOOKS_FAVORITES, payload: value });
   };
 
   

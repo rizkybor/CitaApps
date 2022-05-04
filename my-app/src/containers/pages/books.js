@@ -8,11 +8,14 @@ import Container from "@mui/material/Container";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
 import CardBooks from "../../components/cards/card-components";
+import CardFavorites from "../../components/cards/card-favorites";
+
 import Pagination from "../../components/pagination/pagination"
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import CardMedia from "@mui/material/CardMedia";
 import { Typography } from "@mui/material";
+
 
 export default function BookList() {
   const [ bookCategories, setBookCategories ] = useState([]);
@@ -20,14 +23,13 @@ export default function BookList() {
   const [ postPerPage, setPostPerPage ] = useState(10)
   const [ currentCategories, setCurrentCategories ] = useState('');
 
+
   const dispatch = useDispatch();
   let data = useSelector((state) => state.books.books);
   let dataFiltering = useSelector((state) => state.books.booksByPage);
 
-
   let onChange = (e) => {
     if(dataFiltering.length > 0){
-      console.log(true)
       dispatch(getDataBooksByPage(e.target.value, 1, 0));
     } 
     dispatch(getDataBooks(e.target.value));
@@ -48,13 +50,10 @@ export default function BookList() {
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentBooks = data.slice(indexOfFirstPost, indexOfLastPost)
-  
-  // console.log(data.length, dataFiltering.length)
-  // console.log(currentBooks,'<< BUKU TANPA PAGE')
 
   let cardStyle = {
     marginTop: "10px",
-    width: "25vw",
+    width: "15vw",
     height: "auto",
     padding: "3.5%",
   };
@@ -79,7 +78,7 @@ export default function BookList() {
               <FormLabel component="legend">Book Categories</FormLabel>
               <RadioGroup
                 row
-                aria-label="movies"
+                aria-label="books"
                 name="row-radio-buttons-group"
                 sx={{
                   "& .MuiSvgIcon-root": {
@@ -102,7 +101,6 @@ export default function BookList() {
           </FormControl>
         </Stack>
               
-         
         {data.length > 0 && dataFiltering.length > 0 ? (
           <div>
             <Grid container spacing={2}>
@@ -111,9 +109,6 @@ export default function BookList() {
                   books={dataFiltering}
                 />
                 <br />
-              </Grid>
-              <Grid item xs={4}>
-              {/* <Pagination postPerPage={postPerPage} totalPost={books.length} /> */}
               </Grid>
             </Grid>
           </div>
@@ -126,52 +121,52 @@ export default function BookList() {
               />
               <br />
             </Grid>
-            <Grid item xs={4}>
-            {/* <Pagination postPerPage={postPerPage} totalPost={books.length} /> */}
-            </Grid>
           </Grid>
         </div>
         )}
-
-    {data.length > 0 || dataFiltering.length > 0 ? (
-        <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Pagination
-          postPerPage={currentBooks.length} 
-          totalPost={data.length}
-          categories={currentCategories}
-        
-        />
-      </Grid>
-         ) : (
-          <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-           <Typography variant="h1">
-      
-            Hii.. Welcome to My Apps
-         
-          </ Typography>
-          <CardMedia
-           style={cardStyle}
-              component="img"
-              height="600"
-              image="/book.jpg"
-              alt="Buku Rizky"
-            />
-            <Typography variant="h4">
-            "select a category above to display book pages based on the selected category"
-            </Typography>
-         
-          </Grid>
-             )}
+        <br></br>
+        <br></br>
+            {data.length > 0 || dataFiltering.length > 0 ? (
+                <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                >
+                  <Pagination
+                    postPerPage={currentBooks.length} 
+                    totalPost={data.length}
+                    categories={currentCategories}
+                  />
+                </Grid>
+                  ) : (
+                  <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{
+                      marginTop: 10,
+                    }}
+                >
+                  <Typography variant="h1">
+                    Hii.. Welcome to My Apps
+                  </ Typography>
+                  <Typography variant="h4">
+                    "select a category above to display book pages based on the selected category"
+                    </Typography>
+                  <CardMedia
+                      style={cardStyle}
+                      component="img"
+                      height="300"
+                      image="/book.jpg"
+                      alt="Buku Rizky"
+                    />
+                  </Grid>
+              )}
+          <br></br>
+          <br></br>
+        <CardFavorites />
       </Container>
     </main>
   );
