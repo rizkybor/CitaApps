@@ -1,112 +1,150 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid";
+import { useSelector, useDispatch } from "react-redux";
+import { getDataBooks, getDataBooksByPage } from "../../store/actions/books";
+import Grid from '@mui/material/Grid';
 import Stack from "@mui/material/Stack";
-import Radio from "@mui/material/Radio";
 import FormLabel from "@mui/material/FormLabel";
 import Container from "@mui/material/Container";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import CardBooks from "../../components/cards/card-components";
+import Pagination from "../../components/pagination/pagination"
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
 
-export default function MovieList() {
-  const [ bookCategories, setBookCategories ] = useState('');
+export default function BookList() {
+  const [ bookCategories, setBookCategories ] = useState([]);
+  const [ books, setBooks ] = useState('');
+  const [ currentPage, setCurrentPage ] = useState(1)
+  const [ postPerPage, setPostPerPage ] = useState(10)
+  const [ cat, setCat ] = useState('');
+
+  const dispatch = useDispatch();
+  let data = useSelector((state) => state.books.books);
+  let dataFiltering = useSelector((state) => state.books.booksByPage);
+
 
   let onChange = (e) => {
-    console.log('set onChange')
-    const { name, value } = e.target;
-    setBookCategories({ ...setBookCategories, [name]: value });
+    if(dataFiltering.length > 0){
+      console.log(true)
+      dispatch(getDataBooksByPage(e.target.value, 1, 0));
+    } 
+    dispatch(getDataBooks(e.target.value));
+    setCat(e.target.value)
   };
 
-  const makeAPICall = async () => {
-    try {
-      const response = await fetch('https://asia-southeast2-sejutacita-app.cloudfunctions.net/fee-assessment-categories', {mode:'cors'});
-      const data = await response.json();
-      console.log({ data })
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
-
-  useEffect(() => {
-    makeAPICall()
-      //  const url = fetch(`https://asia-southeast2-sejutacita-app.cloudfunctions.net/fee-assessment-categories`)
-      //  const fetchData = async () => {
-      //   try {
-      //     const response = await fetch(url);
-      //     console.log(response,'<<<<<<< RESPONSE')
-      //     console.log(response.json,'<<<<<<< RESPONSE')
-
-      //     // const json = await response.blob();
-      //     // console.log(json);
-      //   } catch (error) {
-      //     console.log("error", error);
-      //   }
-      // };
-      // fetchData();
+  useEffect(function setCategories() {
+      fetch('https://asia-southeast2-sejutacita-app.cloudfunctions.net/fee-assessment-categories', )
+     .then((response) => response.json())
+     .then((json) => {
+       setBookCategories(json)
+     })
+     .catch((err) => {
+       alert(err.message)
+     });
   }, []);
+
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentBooks = data.slice(indexOfFirstPost, indexOfLastPost)
+  
+
+  // console.log(data.length, dataFiltering.length)
+  // console.log(currentBooks,'<< BUKU TANPA PAGE')
 
   return (
     <main>
       <Container sx={{ py: 8 }} maxWidth="md">
+        
         <Stack
           direction="row"
           justifyContent="center"
           alignItems="center"
           spacing={3}
-        >
+        >   
           <FormControl component="fieldset">
-            <FormLabel component="legend">Book Categories</FormLabel>
-            <RadioGroup
-              row
-              aria-label="movies"
-              name="row-radio-buttons-group"
-              sx={{
-                "& .MuiSvgIcon-root": {
-                  fontSize: 15,
-                },
-              }}
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
             >
-              <FormControlLabel
-                value="top_rated"
-                control={<Radio />}
-                label="Top Rated Movies"
-                onChange={onChange}
-              />
-              <FormControlLabel
-                value="upcoming"
-                control={<Radio />}
-                label="Upcoming Movies"
-                onChange={onChange}
-              />
-              <FormControlLabel
-                value="now_playing"
-                control={<Radio />}
-                label="Now Playing"
-                onChange={onChange}
-              />
-              <FormControlLabel
-                value="popular"
-                control={<Radio />}
-                label="Popular Movies"
-                onChange={onChange}
-              />
-            </RadioGroup>
+              <FormLabel component="legend">Book Categories</FormLabel>
+              <RadioGroup
+                row
+                aria-label="movies"
+                name="row-radio-buttons-group"
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: 15,
+                  },
+                }}
+              >
+                {bookCategories.map((el) => (
+                <div key={el.id} data={el} >
+                    <FormControlLabel
+                        value={el.id}
+                        control={<Radio />}
+                        label={el.name}
+                        onChange={onChange}
+                      />
+                  </ div>
+                ))}
+              </RadioGroup>
+            </ Grid>
           </FormControl>
-
         </Stack>
-
+              
          
-        {bookCategories ? (
-          <Grid container spacing={2}>
-            <CardBooks />
-          </Grid>
+        {data.length > 0 && dataFiltering.length > 0 ? (
+          <div>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                  <CardBooks
+                  books={dataFiltering}
+                />
+                <br />
+              </Grid>
+              <Grid item xs={4}>
+              {/* <Pagination postPerPage={postPerPage} totalPost={books.length} /> */}
+              </Grid>
+            </Grid>
+          </div>
         ) : (
-          <h1>
-            hi, please select a book category to display the list of books here
-          </h1>
+          <div>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <CardBooks
+                books={currentBooks}
+              />
+              <br />
+            </Grid>
+            <Grid item xs={4}>
+            {/* <Pagination postPerPage={postPerPage} totalPost={books.length} /> */}
+            </Grid>
+          </Grid>
+        </div>
         )}
+
+    {data.length > 0 || dataFiltering.length > 0 ? (
+        <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Pagination
+          postPerPage={currentBooks.length} 
+          totalPost={data.length}
+          categories={cat}
+        
+        />
+      </Grid>
+         ) : (
+          <h1>
+            Welcome to My Apps
+        </h1>
+             )}
       </Container>
     </main>
   );

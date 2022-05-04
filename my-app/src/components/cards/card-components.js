@@ -8,10 +8,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import CardContent from "@mui/material/CardContent";
 
-export default function CardComponents() {
-//   const { data } = props;
-//   let navigate = useNavigate();
-
+export default function CardComponents({books, loading}) {
   let cardStyle = {
     marginTop: "10px",
     width: "25vw",
@@ -30,42 +27,65 @@ export default function CardComponents() {
     },
   });
 
+ 
+  // console.log(props,'<<< cek props')
 //   let handleClick = (id) => {
 //     navigate(`/${id}`);
 //   };
 
+// {books.map((el) => (
+//   <CardBooks
+//     key={el.id}
+//     data={el}
+//     loading={loading}
+//   />
+//   ))}
+
+console.log(books,'<<<< CEK BUKUNYA')
+// console.log(books,'<<< loading')
+
+if (loading){
+  return <h2> Loading ... </h2>
+}
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      item
-      lg={4}
-      md={4}
-      sm={4}
-      xs={6}
-      // key={""}
-    >
-      <Card
-        style={cardStyle}
-        sx={{ maxWidth: 250 }}
-      >
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="340"
-            image=''
-            alt="green iguana"
-          />
-          <CardContent style={cardBody}>
-            <Typography theme={theme}> Card Books </Typography>
-            <Typography variant="caption" display="block" gutterBottom>
-              Release Date : 'Lorem Ipsum'
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grid>
+    <div>
+       <Grid container spacing={2}>
+        {books.map((el) => (
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            item
+            lg={4}
+            md={4}
+            sm={4}
+            xs={6}
+            key={el.id}
+          >
+            <Card
+              style={cardStyle}
+              sx={{ maxWidth: 250 }}
+            >
+              
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="340"
+                  image={el.cover_url}
+                  alt="green iguana"
+                />
+                <CardContent style={cardBody}>
+                  <Typography theme={theme}> {el.title} </Typography>
+                  <Typography variant="caption" display="block" gutterBottom>
+                    Authors : {el.authors}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+   </div>
   );
 }
