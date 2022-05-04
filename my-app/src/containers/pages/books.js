@@ -11,13 +11,14 @@ import CardBooks from "../../components/cards/card-components";
 import Pagination from "../../components/pagination/pagination"
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
+import CardMedia from "@mui/material/CardMedia";
+import { Typography } from "@mui/material";
 
 export default function BookList() {
   const [ bookCategories, setBookCategories ] = useState([]);
-  const [ books, setBooks ] = useState('');
   const [ currentPage, setCurrentPage ] = useState(1)
   const [ postPerPage, setPostPerPage ] = useState(10)
-  const [ cat, setCat ] = useState('');
+  const [ currentCategories, setCurrentCategories ] = useState('');
 
   const dispatch = useDispatch();
   let data = useSelector((state) => state.books.books);
@@ -30,7 +31,7 @@ export default function BookList() {
       dispatch(getDataBooksByPage(e.target.value, 1, 0));
     } 
     dispatch(getDataBooks(e.target.value));
-    setCat(e.target.value)
+    setCurrentCategories(e.target.value)
   };
 
   useEffect(function setCategories() {
@@ -48,9 +49,15 @@ export default function BookList() {
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentBooks = data.slice(indexOfFirstPost, indexOfLastPost)
   
-
   // console.log(data.length, dataFiltering.length)
   // console.log(currentBooks,'<< BUKU TANPA PAGE')
+
+  let cardStyle = {
+    marginTop: "10px",
+    width: "25vw",
+    height: "auto",
+    padding: "3.5%",
+  };
 
   return (
     <main>
@@ -136,14 +143,34 @@ export default function BookList() {
         <Pagination
           postPerPage={currentBooks.length} 
           totalPost={data.length}
-          categories={cat}
+          categories={currentCategories}
         
         />
       </Grid>
          ) : (
-          <h1>
-            Welcome to My Apps
-        </h1>
+          <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+           <Typography variant="h1">
+      
+            Hii.. Welcome to My Apps
+         
+          </ Typography>
+          <CardMedia
+           style={cardStyle}
+              component="img"
+              height="600"
+              image="/book.jpg"
+              alt="Buku Rizky"
+            />
+            <Typography variant="h4">
+            "select a category above to display book pages based on the selected category"
+            </Typography>
+         
+          </Grid>
              )}
       </Container>
     </main>

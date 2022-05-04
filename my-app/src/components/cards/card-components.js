@@ -8,17 +8,17 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import CardContent from "@mui/material/CardContent";
 
-export default function CardComponents({books, loading}) {
+export default function CardComponents({books}) {
   let cardStyle = {
     marginTop: "10px",
-    width: "25vw",
+    width: "200vw",
     height: "auto",
-    borderStyle: "outset",
+    padding: "3.5%"
   };
 
   let cardBody = {
     textAlign: "center",
-    height: "5vw",
+    height: "3vw",
   };
 
   const theme = createTheme({
@@ -27,26 +27,6 @@ export default function CardComponents({books, loading}) {
     },
   });
 
- 
-  // console.log(props,'<<< cek props')
-//   let handleClick = (id) => {
-//     navigate(`/${id}`);
-//   };
-
-// {books.map((el) => (
-//   <CardBooks
-//     key={el.id}
-//     data={el}
-//     loading={loading}
-//   />
-//   ))}
-
-console.log(books,'<<<< CEK BUKUNYA')
-// console.log(books,'<<< loading')
-
-if (loading){
-  return <h2> Loading ... </h2>
-}
   return (
     <div>
        <Grid container spacing={2}>
@@ -59,19 +39,23 @@ if (loading){
             item
             lg={4}
             md={4}
-            sm={4}
+            sm={5}
             xs={6}
             key={el.id}
           >
+            
             <Card
               style={cardStyle}
-              sx={{ maxWidth: 250 }}
+              sx={{
+                    maxWidth: 250,
+                    boxShadow: 10
+                  }}
             >
               
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  height="340"
+                  height="400"
                   image={el.cover_url}
                   alt="green iguana"
                 />

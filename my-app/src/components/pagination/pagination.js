@@ -10,7 +10,6 @@ const Paginations = ({postPerPage, totalPost, categories}) => {
     const countPage = Math.floor(totalPost/postPerPage)
    
     let onChange = (e) => {
-        console.log(e.target.textContent,'<<< valuenya')
         const page = e.target.textContent
         dispatch(getDataBooksByPage(categories, page, postPerPage));
         window.scroll(0,0)

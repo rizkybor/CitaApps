@@ -5,9 +5,13 @@ import Typography from "@mui/material/Typography";
 import Grid from '@mui/material/Grid';
 
 export default function Header() {
+ 
   return (
     <div>
-      <AppBar position="relative">
+      <AppBar 
+        position="relative"
+        color="primary"
+        >
         <Toolbar>
             <Grid
             container
